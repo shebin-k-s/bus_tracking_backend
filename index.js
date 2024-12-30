@@ -44,22 +44,22 @@ io.on('connection', async (socket) => {
         try {
             const { busId, longitude, latitude } = data;
 
-            // const bus = await Bus.findById(busId);
-            // if (!bus) {
-            //     socket.emit('busInfo', { message: 'Bus not found', status: false });
-            //     return;
-            // }
+            const bus = await Bus.findById(busId);
+            if (!bus) {
+                socket.emit('busInfo', { message: 'Bus not found', status: false });
+                return;
+            }
 
             io.to(busId).emit('busLocation', {
                 busId,
                 latitude,
                 longitude
             });
-            // bus.currentLocation = {
-            //     type: 'Point',
-            //     coordinates: [longitude, latitude],
-            // };
-            // await bus.save()
+            bus.currentLocation = {
+                type: 'Point',
+                coordinates: [longitude, latitude],
+            };
+            await bus.save()
 
         } catch (error) {
             console.error('Error sending bus location:', error);
