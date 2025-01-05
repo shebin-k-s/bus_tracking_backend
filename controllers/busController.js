@@ -113,7 +113,7 @@ export const startBusJourney = async (req, res) => {
             return res.status(400).json({ message: "Invalid direction value" });
         }
         const startTime = Date.now();
-        const status = "running";
+        const status = "Running";
 
         const updatedBus = await Bus.findByIdAndUpdate(
             id,
