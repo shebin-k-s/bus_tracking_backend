@@ -35,11 +35,11 @@ const busSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: [
-            'running',
-            'stopped',
-            'maintenance'
+            'Running',
+            'Not Running',
+            'Maintenance'
         ],
-        default: 'stopped'
+        default: 'Not Running'
     },
     direction: {
         type: String,
