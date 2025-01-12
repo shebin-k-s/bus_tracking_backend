@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Bus from "../models/busModel.js";
 import Route from "../models/routeModel.js";
 
@@ -5,6 +6,9 @@ export const addBus = async (req, res) => {
     const { busNumber, routeId, driverName, driverNumber, currentLocation } = req.body;
 
     try {
+        if (!mongoose.Types.ObjectId.isValid(routeId)) {
+            return res.status(400).json({ 'message': "Invalid routeId format" });
+        }
         const route = await Route.findById(routeId);
         if (!route) {
             return res.status(404).json({ message: 'Route not found' });
@@ -58,7 +62,7 @@ export const getAllBuses = async (req, res) => {
 
         });
 
-        
+
         return res.status(200).json({ buses: updatedBuses });
 
     } catch (error) {
