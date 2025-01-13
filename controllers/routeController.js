@@ -9,29 +9,14 @@ export const addRoute = async (req, res) => {
     const { routeNumber, stops } = req.body
     try {
 
-        const reversedStops = stops.map(stop => {
-            const reversedCoordinates = [stop.location.coordinates[1], stop.location.coordinates[0]];
-
-            return {
-                ...stop,
-                location: {
-                    ...stop.location,
-                    coordinates: reversedCoordinates
-                }
-            };
-        });
-
-
-
-
         const stopsWithDistances = await Promise.all(
-            reversedStops.map(async (stop, index) => {
+            stops.map(async (stop, index) => {
                 if (index === stops.length - 1) {
                     return { ...stop, distanceToNextStop: 0 };
                 }
 
                 const origin = `${stop.location.coordinates[1]},${stop.location.coordinates[0]}`;
-                const destination = `${reversedStops[index + 1].location.coordinates[1]},${reversedStops[index + 1].location.coordinates[0]}`;
+                const destination = `${stops[index + 1].location.coordinates[1]},${stops[index + 1].location.coordinates[0]}`;
                 console.log(origin);
                 console.log(destination);
 
