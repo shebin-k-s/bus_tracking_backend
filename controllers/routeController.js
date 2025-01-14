@@ -8,6 +8,12 @@ export const addRoute = async (req, res) => {
 
     const { routeNumber, stops } = req.body
     try {
+        let existingRoute = await Route.findOne({ routeNumber : routeNumber.toUpperCase() })
+
+        if (existingRoute) {
+            return res.status(400).json({ message: "Route already exist" })
+        }
+
 
         const stopsWithDistances = await Promise.all(
             stops.map(async (stop, index) => {
@@ -27,7 +33,7 @@ export const addRoute = async (req, res) => {
         );
 
         const route = new Route({
-            routeNumber,
+            routeNumber : routeNumber.toUpperCase(),
             stops: stopsWithDistances,
         });
 

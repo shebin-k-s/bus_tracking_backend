@@ -10,12 +10,19 @@ export const addBus = async (req, res) => {
             return res.status(400).json({ 'message': "Invalid routeId format" });
         }
         const route = await Route.findById(routeId);
+
         if (!route) {
             return res.status(404).json({ message: 'Route not found' });
         }
 
+        let existingBus = await Bus.findOne({ busNumber : busNumber.toUpperCase() })
+
+        if (existingBus) {
+            return res.status(400).json({ message: "Bus already exist" })
+        }
+
         const newBus = new Bus({
-            busNumber,
+            busNumber : busNumber.toUpperCase(),
             routeId,
             driverName,
             driverNumber,
