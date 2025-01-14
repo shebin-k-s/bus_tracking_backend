@@ -39,7 +39,7 @@ export const addRoute = async (req, res) => {
         });
 
         await route.save();
-        return res.status(201).json({ route });
+        return res.status(201).json({ "message": "Bus route added", route });
     } catch (error) {
         console.log(error);
 
