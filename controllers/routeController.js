@@ -84,10 +84,6 @@ export const getAllRoutes = async (req, res) => {
     try {
         const routes = await Route.find();
 
-        if (routes.length === 0) {
-            return res.status(404).json({ message: 'No routes found', routes });
-        }
-
         res.status(200).json({ routes });
     } catch (error) {
         res.status(400).json({ message: error.message });
