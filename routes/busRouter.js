@@ -1,5 +1,7 @@
 import express from "express";
 import { addBus, getAllBuses, getBusById, startBusJourney, updateBus } from "../controllers/busController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
+import { authorizeRole } from "../middleware/authorizeRole.js";
 
 const router = express.Router()
 
@@ -10,9 +12,7 @@ router.route("/")
 
 
 router.route("/add")
-    .post(addBus)
-
-
+    .post(verifyToken, authorizeRole(['Admin']), addBus)
 
 
 router.route("/:id")

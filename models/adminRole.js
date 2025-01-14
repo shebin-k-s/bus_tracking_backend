@@ -1,9 +1,9 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: [true ,"Email is required"],
+        required: [true, "Email is required"],
         unique: true,
     },
     fullName: {
@@ -17,8 +17,6 @@ const userSchema = new mongoose.Schema({
     },
 })
 
+const Admin = mongoose.model('Admin',adminSchema)
 
-const User = mongoose.model('User', userSchema)
-
-
-export default User
+export default Admin

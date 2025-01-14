@@ -26,13 +26,13 @@ export const addRoute = async (req, res) => {
             })
         );
 
-          const route = new Route({
+        const route = new Route({
             routeNumber,
             stops: stopsWithDistances,
-          });
+        });
 
-          await route.save();
-        res.status(201).json({ route });
+        await route.save();
+        return res.status(201).json({ route });
     } catch (error) {
         console.log(error);
 

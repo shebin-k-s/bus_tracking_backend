@@ -1,30 +1,25 @@
-import User from "../models/userModel.js"
 import bcrypt from 'bcrypt'
 import Jwt from "jsonwebtoken";
 import nodemailer from 'nodemailer'
+import Admin from "../models/adminRole.js";
 
 
-export const signupUser = async (req, res) => {
+export const signupAdmin = async (req, res) => {
     const { fullName, email, password } = req.body
 
     console.log(req.body);
 
 
-
     try {
-        const emailDomain = "@gecskp.ac.in";
-        if (!email.endsWith(emailDomain)) {
-            return res.status(403).json({ message: `Only users with the domain ${emailDomain} are allowed to sign up.` });
-        }
 
-        let existingUser = await User.findOne({ email })
+        let existingUser = await Admin.findOne({ email })
 
         if (existingUser) {
             return res.status(400).json({ message: "Email already exists" })
         }
         const hashedPassword = bcrypt.hashSync(password, 10);
 
-        const newUser = new User({
+        const newUser = new Admin({
             email,
             fullName,
             password: hashedPassword
@@ -54,7 +49,7 @@ export const login = async (req, res) => {
             return res.status(404).json({ message: email ? "Password is required" : "Email is required" })
         }
 
-        let user = await User.findOne({ email });
+        let user = await Admin.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ message: "Email doesn't exist" })
@@ -64,7 +59,7 @@ export const login = async (req, res) => {
 
             return res.status(401).json({ message: "Incorrect Password" })
         } else {
-            const token = Jwt.sign({ userId: user._id ,role:"User"}, process.env.JWT_TOKEN);
+            const token = Jwt.sign({ userId: user._id, role: "Admin" }, process.env.JWT_TOKEN);
             return res.status(200).json({
                 message: "Login Successfull",
                 token: token,
@@ -88,7 +83,7 @@ export const forgetPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
-        let user = await User.findOne({ email });
+        let user = await Admin.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ message: "User doesn't exist" });
@@ -136,7 +131,7 @@ export const resetPassword = async (req, res) => {
     const { email, token, password } = req.body;
     try {
 
-        let user = await User.findOne({ email });
+        let user = await Admin.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ message: "User doesn't exist" });

@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import http from 'http';
-import { authRouter, busRouter, routeRouter } from "./routes/index.js";
+import { adminAuthRoute, authRouter, busRouter, routeRouter } from "./routes/index.js";
 import { Server } from "socket.io";
 import Bus from "./models/busModel.js";
 
@@ -18,6 +18,8 @@ const io = new Server(server)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/v1/admin/auth", adminAuthRoute);
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/bus", busRouter);
 app.use("/api/v1/route", routeRouter);
