@@ -1,5 +1,7 @@
 import express from "express";
 import { addRoute, getAllRoutes } from "../controllers/routeController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
+import { authorizeRole } from "../middleware/authorizeRole.js";
 
 
 const router = express.Router();
@@ -8,7 +10,7 @@ router.route("/")
     .get(getAllRoutes);
 
 router.route("/add")
-    .post(addRoute);
+    .post(verifyToken, authorizeRole(['Admin']),addRoute);
 
 // router.route("/:id")
 //     .get(getRouteById);
