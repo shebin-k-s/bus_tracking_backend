@@ -1,5 +1,6 @@
 import axios from "axios";
 import Route from "../models/routeModel.js";
+import Bus from "../models/busModel.js";
 
 export const addRoute = async (req, res) => {
 
@@ -8,7 +9,7 @@ export const addRoute = async (req, res) => {
 
     const { routeNumber, stops } = req.body
     try {
-        let existingRoute = await Route.findOne({ routeNumber : routeNumber.toUpperCase() })
+        let existingRoute = await Route.findOne({ routeNumber: routeNumber.toUpperCase() })
 
         if (existingRoute) {
             return res.status(400).json({ message: "Route already exist" })
@@ -33,7 +34,7 @@ export const addRoute = async (req, res) => {
         );
 
         const route = new Route({
-            routeNumber : routeNumber.toUpperCase(),
+            routeNumber: routeNumber.toUpperCase(),
             stops: stopsWithDistances,
         });
 
@@ -92,3 +93,22 @@ export const getAllRoutes = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+export const deleteRoute = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedRoute = await Route.findByIdAndDelete(id);
+        if (!deletedRoute) {
+            return res.status(404).json({ message: 'Route not found' });
+        }
+
+        await Bus.deleteMany({ routeId: id })
+
+        return res.status(200).json({ message: 'Route and associated buses deleted successfully' });
+
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}

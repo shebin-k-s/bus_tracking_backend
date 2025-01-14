@@ -15,14 +15,14 @@ export const addBus = async (req, res) => {
             return res.status(404).json({ message: 'Route not found' });
         }
 
-        let existingBus = await Bus.findOne({ busNumber : busNumber.toUpperCase() })
+        let existingBus = await Bus.findOne({ busNumber: busNumber.toUpperCase() })
 
         if (existingBus) {
             return res.status(400).json({ message: "Bus already exist" })
         }
 
         const newBus = new Bus({
-            busNumber : busNumber.toUpperCase(),
+            busNumber: busNumber.toUpperCase(),
             routeId,
             driverName,
             driverNumber,
@@ -148,3 +148,20 @@ export const startBusJourney = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+export const deleteBus = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedBus = await Bus.findByIdAndDelete(id);
+
+        if (!deletedBus) {
+            return res.status(404).json({ message: 'Bus not found' });
+        }
+
+        res.status(200).json({ message: 'Bus deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
