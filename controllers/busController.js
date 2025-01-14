@@ -7,7 +7,7 @@ export const addBus = async (req, res) => {
 
     try {
         if (!mongoose.Types.ObjectId.isValid(routeId)) {
-            return res.status(400).json({ 'message': "Invalid routeId format" });
+            return res.status(400).json({ message: "Invalid routeId format" });
         }
         const route = await Route.findById(routeId);
 

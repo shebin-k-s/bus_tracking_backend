@@ -39,7 +39,7 @@ export const addRoute = async (req, res) => {
         });
 
         await route.save();
-        return res.status(201).json({ "message": "Bus route added", route });
+        return res.status(201).json({ message: "Bus route added", route });
     } catch (error) {
         console.log(error);
 
@@ -85,7 +85,7 @@ export const getAllRoutes = async (req, res) => {
         const routes = await Route.find();
 
         if (routes.length === 0) {
-            return res.status(404).json({ message: 'No routes found' });
+            return res.status(404).json({ message: 'No routes found', routes });
         }
 
         res.status(200).json({ routes });
