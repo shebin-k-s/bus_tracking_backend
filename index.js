@@ -6,6 +6,7 @@ import { adminAuthRoute, authRouter, busRouter, routeRouter, ticketRoute } from 
 import { Server } from "socket.io";
 import Bus from "./models/busModel.js";
 import { verifyToken } from "./middleware/authMiddleware.js";
+import session from "express-session";
 
 
 dotenv.config();
@@ -15,6 +16,15 @@ const app = express();
 const server = http.createServer(app)
 const io = new Server(server)
 
+app.use(session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        maxAge: 900000,
+    }
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

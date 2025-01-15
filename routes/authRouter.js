@@ -1,7 +1,12 @@
 import express from 'express'
-import { forgetPassword, login, signupUser, resetPassword } from '../controllers/userController.js'
+import { forgotPassword, login, signupUser, resetPassword, sendOTP, verifyOTP } from '../controllers/userController.js'
 
 const router = express.Router()
+
+router.route("/send-otp")
+    .post(sendOTP)
+router.route("/verify-otp")
+    .post(verifyOTP)
 
 router.route("/signup")
     .post(signupUser)
@@ -9,8 +14,8 @@ router.route("/signup")
 router.route("/signin")
     .post(login)
 
-router.route("/forget-password")
-    .post(forgetPassword)
+router.route("/forgot-password")
+    .post(forgotPassword)
 
 router.route("/reset-password")
     .post(resetPassword)
