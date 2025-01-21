@@ -26,6 +26,8 @@ app.use(session({
     }
 }));
 
+app.set("io", io)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

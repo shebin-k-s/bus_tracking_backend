@@ -1,5 +1,5 @@
 import express from "express";
-import { addBus, deleteBus, getAllBuses, getBusById, startBusJourney, updateBus } from "../controllers/busController.js";
+import { addBus, deleteBus, getAllBuses, getBusById, startBusJourney, updateBus, updateBusLocation } from "../controllers/busController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { authorizeRole } from "../middleware/authorizeRole.js";
 
@@ -27,8 +27,8 @@ router.route("/start-journey/:id")
 router.route("/:id")
     .delete(verifyToken, authorizeRole(['Admin']), deleteBus)
 
-
-
+router.route("/update-location")
+    .patch(updateBusLocation)
 
 
 
