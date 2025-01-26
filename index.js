@@ -45,8 +45,13 @@ const PORT = process.env.PORT || 5000;
 io.on('connection', async (socket) => {
     console.log('A user connected');
 
+    socket.on('error', (err) => {
+        console.error('Socket error:', err);
+    });
+
     socket.on('joinBusSocket', async (data) => {
         try {
+            console.log("user joined bus socket");
 
             socket.emit('busInfo', { message: 'joined bus socket', status: true });
 
