@@ -19,7 +19,9 @@ router.route("/:id")
     .get(getBusById)
 
 router.route("/update/:id")
-    .patch(verifyToken, authorizeRole(['Admin']), updateBus)
+    .patch(updateBus)
+
+    // .patch(verifyToken, authorizeRole(['Admin']), updateBus)
 
 router.route("/start-journey/:id")
     .patch(startBusJourney)
