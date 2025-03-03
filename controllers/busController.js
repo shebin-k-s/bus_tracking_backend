@@ -73,6 +73,8 @@ export const getAllBuses = async (req, res) => {
         return res.status(200).json({ buses: updatedBuses });
 
     } catch (error) {
+        console.log(error);
+
         res.status(500).json({ message: error.message });
     }
 };
@@ -99,13 +101,18 @@ export const updateBus = async (req, res) => {
             return res.status(400).json({ message: 'No updates provided' });
         }
 
+        if (updates.status === "Running") {
+            updates.startTime = Date.now(); 
+            updates.direction = updates.direction || "FORWARD";
+        }
+
         const updatedBus = await Bus.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
 
         if (!updatedBus) {
             return res.status(404).json({ message: 'Bus not found' });
         }
 
-        res.status(200).json({ updatedBus });
+        res.status(200).json({ message: "Bus updated", bus: updatedBus });
     } catch (error) {
         if (error.name === "ValidationError") {
             const errors = Object.values(error.errors).map(err => err.message);
@@ -114,6 +121,7 @@ export const updateBus = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 
 export const startBusJourney = async (req, res) => {
