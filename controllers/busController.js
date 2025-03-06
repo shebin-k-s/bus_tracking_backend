@@ -42,7 +42,6 @@ export const addBus = async (req, res) => {
 
     }
 }
-
 export const getAllBuses = async (req, res) => {
     try {
         const buses = await Bus.find().populate('routeId');
@@ -102,7 +101,7 @@ export const updateBus = async (req, res) => {
         }
 
         if (updates.status === "Running") {
-            updates.startTime = Date.now(); 
+            updates.startTime = Date.now();
             updates.direction = updates.direction || "FORWARD";
         }
 
