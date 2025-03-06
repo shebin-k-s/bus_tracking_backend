@@ -15,9 +15,12 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         minlength: 6
     },
+    cardId: {
+        type: String
+    },
     ticketCount: {
         type: Number,
-        default:0
+        default: 0
     }
 })
 

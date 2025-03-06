@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import http from 'http';
-import { adminAuthRoute, authRouter, busRouter, routeRouter, ticketRoute } from "./routes/index.js";
+import { adminAuthRoute, authRouter, busRouter, cardRoute, routeRouter, ticketRoute } from "./routes/index.js";
 import { Server } from "socket.io";
 import Bus from "./models/busModel.js";
 import { verifyToken } from "./middleware/authMiddleware.js";
@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/admin/auth", adminAuthRoute);
 app.use("/api/v1/ticket", verifyToken, ticketRoute);
+app.use("/api/v1/card", verifyToken, cardRoute);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/bus", busRouter);

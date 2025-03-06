@@ -3,11 +3,13 @@ import busRouter from './busRouter.js'
 import routeRouter from './routeRouter.js'
 import adminAuthRoute from './adminAuthRoute.js'
 import ticketRoute from './ticketRoute.js'
+import cardRoute from './cardRoute.js'
 
 export {
     authRouter,
     busRouter,
     routeRouter,
     adminAuthRoute,
-    ticketRoute
+    ticketRoute,
+    cardRoute,
 };
