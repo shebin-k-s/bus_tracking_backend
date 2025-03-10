@@ -53,6 +53,10 @@ export const consumeTicket = async (req, res) => {
     try {
 
         console.log(req.body);
+
+        if (!req.body.cardId) {
+            return res.status(400).json({ message: "Card ID are required" });
+        }
         
         const user = await User.findOne({ cardId: req.body.cardId.toUpperCase() });
         if (!user) {
