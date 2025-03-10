@@ -51,14 +51,11 @@ export const fetchTicket = async (req, res) => {
 
 export const consumeTicket = async (req, res) => {
     try {
-        const user = await User.findById(req.body.userId);
+        const user = await User.findOne({ cardId: req.body.cardId });
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "Card details not found" });
         }
 
-        if (!user.cardId) {
-            return res.status(400).json({ message: "User does not have a registered card" });
-        }
 
         if (user.ticketCount <= 0) {
             return res.status(400).json({
