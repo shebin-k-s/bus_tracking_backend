@@ -51,7 +51,10 @@ export const fetchTicket = async (req, res) => {
 
 export const consumeTicket = async (req, res) => {
     try {
-        const user = await User.findOne({ cardId: req.body.cardId });
+
+        console.log(req.body);
+        
+        const user = await User.findOne({ cardId: req.body.cardId.toUpperCase() });
         if (!user) {
             return res.status(404).json({ message: "Card details not found" });
         }

@@ -7,19 +7,21 @@ export const assignCard = async (req, res) => {
         return res.status(400).json({ message: "Email and Card ID are required" });
     }
 
+
     try {
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const existingUserWithCard = await User.findOne({ cardId });
+        const existingUserWithCard = await User.findOne({ cardId : cardId.toUpperCase() });
         if (existingUserWithCard && existingUserWithCard.email !== email) {
             return res.status(400).json({ message: "Card is already assigned to another user" });
         }
 
-        user.cardId = cardId;
+        user.cardId = cardId.toUpperCase();
         await user.save();
+        
 
         return res.status(200).json({ message: "Card assigned successfully" });
     } catch (error) {
